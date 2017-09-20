@@ -1,6 +1,8 @@
 #!/usr/bin/env groovy
 
-
+ def jsonParse(def json) {
+ new groovy.json.JsonSlurperClassic().parseText(json)
+}
 def call(body) {
 
   def config = [:]
@@ -8,9 +10,6 @@ def call(body) {
   body.delegate = config
   body()
   
-  def jsonParse(def json) {
- new groovy.json.JsonSlurperClassic().parseText(json)
-}
   
     def response = httpRequest ignoreSslErrors:true, authentication: 'sonar',  url: 'http://localhost:9000/api/issues/search'
       def re= jsonParse(response.content);   
